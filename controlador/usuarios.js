@@ -36,7 +36,7 @@ const obtenerUsuarios = async (req, res)=>{
                 const cookieExp = {expires: new Date(Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60* 60* 1000), path:"/"}
                 res.cookie("jwt",token,cookieExp)
                 const user = datosUsuarios.push(usuarioToken)
-                res.send({status:"ok", message: "usuario autorizado"})//, redirect:"/api/user/admin"})
+                res.send({status:"ok", message: "usuario autorizado", redirect:"/api/user/admin"})
                 datosUsuarios.push(usuarioToken);
             }
         })
@@ -52,7 +52,7 @@ const actualizarUsuarios = async (req, res)=>{
     await conectar.query(sql, [usuario, email, id], (error, result)=>{
         console.log(result, "result")
         if(error) return res.status(500).send(error);
-        res.send({status:"ok", message: `Registro actualizado en bd. id:${id}`})//, redirect:"/api/user/admin"
+        res.send({status:"ok", message: `Registro actualizado en bd. id:${id}`, redirect:"/api/user/admin"})
     })
 }
 
