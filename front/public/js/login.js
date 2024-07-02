@@ -42,7 +42,7 @@ async function obtenerAutenticacion(even){
     const enviarJson = JSON.stringify(datos)
     const respuesta = await fetch('proyecto11-production-2c46.up.railway.app/api/user/login',{
         method: 'post',
-        headers: {"Content-Type":"aplication/json"},
+        headers: {"Content-Type":"application/json"},
         body: enviarJson
     })
 
