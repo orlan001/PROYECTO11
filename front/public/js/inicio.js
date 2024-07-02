@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 const obtenerDatos = async ()=>{
     mensaje.classList.toggle('autenticacion', false)
-    const respuesta = await fetch('https://proyecto11-production-2c46.up.railway.app/api/user/servicio', {
+    const respuesta = await fetch('proyecto11-production-2c46.up.railway.app/api/user/servicio', {
             method: 'get',
             headers: { "Content-Type": "application/json"}
     })
@@ -52,7 +52,6 @@ const mostrarDatosTabla = (data)=>{
             i++;
         }
         fragment.appendChild(clone)
-        //clone.querySelector('.img-inicio').setAttribute("src", element.imgTipoServicio)
     })
     contenedor_table_servicios.appendChild(fragment)       
 }

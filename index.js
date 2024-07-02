@@ -23,5 +23,5 @@ app.use(express.json({type:'*/*'}))
 
 app.use(express.static(__dirname + "/front/public"));
 
-app.use('https://proyecto11-production-2c46.up.railway.app/api/user', usuariosRutas)
+app.use('/api/user', usuariosRutas)
 

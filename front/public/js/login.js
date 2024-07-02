@@ -40,7 +40,7 @@ async function obtenerAutenticacion(even){
     const password = even.target.children.password.value;
     const datos = {usuario:usuario, password:password}
     const enviarJson = JSON.stringify(datos)
-    const respuesta = await fetch('https://proyecto11-production-2c46.up.railway.app/api/user/login',{
+    const respuesta = await fetch('proyecto11-production-2c46.up.railway.app/api/user/login',{
         method: 'post',
         headers: {"Content-Type":"aplication/json"},
         body: enviarJson
