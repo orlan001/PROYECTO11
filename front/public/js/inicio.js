@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
 const obtenerDatos = async ()=>{
     mensaje.classList.toggle('autenticacion', false)
-    const respuesta = await fetch('proyecto11-production-2c46.up.railway.app/api/user/servicio', {
+    const respuesta = await fetch('proyecto11-production-2f98.up.railway.app/api/user/servicio', {
             method: 'get',
             headers: { "Content-Type": "application/json"}
     })
