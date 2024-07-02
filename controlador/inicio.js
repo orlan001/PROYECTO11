@@ -6,7 +6,7 @@ const obtenerServicios = async (req, res)=>{
             if(error) throw res.status(400).send({status:error, message:'error al obtener datos'})
             //res.send({status:"ok", message: "data",})// redirect:"/api/user/inicio"
          const data = results;
-         res.send(data) 
+         return res.send(data, {redirect:"/api/user/inicio"})
     })
 }
 
