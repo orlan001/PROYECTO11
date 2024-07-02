@@ -20,10 +20,10 @@ const inicialDir = path.parse(__dirname)
 
 router.use(express.static(path.join(inicialDir.dir, "/front/public/css")));
 
-
 router.use(express.static(path.join(inicialDir.dir, "/front/public/img")));
 
 router.use(express.static(path.join(inicialDir.dir, "/front/public/js")));
+
 
 
 router.get("/",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/login.html")))

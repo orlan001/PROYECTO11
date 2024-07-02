@@ -27,7 +27,7 @@ const obtenerUsuarios = async (req, res)=>{
             if(error) throw res.status(400).send({status:error, message:'error al obtener datos'})
             if(results.length == 0 || !(await bcrypt.compare(password, results[0].passwordUsuario))){
                 console.log('usuario o password invalido..')
-                res.status(400).send({status:"error", message: "error de autenticacion..."})
+                return res.status(400).send({status:"error", message: "error de autenticacion..."})
             }else{
                 console.log('login correcto...') 
                 const  usuarioToken = {idUsuario:results[0].idUsuario,nombreUsuario:results[0].nombreUsuario
@@ -36,7 +36,7 @@ const obtenerUsuarios = async (req, res)=>{
                 const cookieExp = {expires: new Date(Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60* 60* 1000), path:"/"}
                 res.cookie("jwt",token,cookieExp)
                 const user = datosUsuarios.push(usuarioToken)
-                res.send({status:"ok", message: "usuario autorizado", redirect:"/api/user/admin"})
+                res.send({status:"ok", message: "usuario autorizado"})//, redirect:"/api/user/admin"})
                 datosUsuarios.push(usuarioToken);
             }
         })
