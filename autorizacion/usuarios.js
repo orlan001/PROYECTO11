@@ -8,7 +8,7 @@ dotenv.config()
 const administrador = async (req, res, next) =>{
     const loginAutorizado = verificarCookie(req)
     if(loginAutorizado) return next()
-    return res.redirect("/api/user/")
+    return res.redirect("/")
 }
 
 const publico = async (req, res, next) =>{
