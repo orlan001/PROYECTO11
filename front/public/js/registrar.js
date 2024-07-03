@@ -64,7 +64,7 @@ async function enviarDatos(datos){
     const password = datos.target.children.password.value;
     let enviar = { usuario: usuario, email:email, password:password}
     let enviarJson = JSON.stringify(enviar)
-    const respuesta = await fetch(`proyecto11-production-c4fd.up.railway.app/registrar`,{
+    const respuesta = await fetch(`/registrar`,{
         method: 'post',
         headers:{"Content-Type": "application/json"},
         body: enviarJson
