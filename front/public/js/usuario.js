@@ -21,9 +21,11 @@ cerrarModalCentro.addEventListener("click", () => {
 })
 
 //obtener datos para listar los datos del usuario
+//const respuesta = await fetch(`proyecto11-production-2f98.up.railway.app/api/user/listar`, {
+//http://localhost:4000/api/user
 const obtenerDatos = async ()=>{
     try {
-        const respuesta = await fetch('proyecto11-production-2f98.up.railway.app/api/user/listar', {
+        const respuesta = await fetch(`http://localhost:4000/listar`, {            
             method: 'get',
             headers: { "Content-Type": "application/json"}
         })
@@ -79,7 +81,7 @@ const cargarDataId = (datas)=>{
 //enviar el id para eliminar al usuario 
 const eliminarDataId = async (id)=>{
     try {
-        const respuesta = await fetch(`proyecto11-production-2f98.up.railway.app/api/user/eliminar/${id}`, {
+        const respuesta = await fetch(`http://localhost:4000/eliminar/${id}`, {
             method: 'DELETE',
         })
         if(!respuesta.ok) return console.log("datos del usuario no encontrado..")
@@ -99,7 +101,7 @@ form_actualizar.addEventListener("submit", async(e)=>{
         let enviar = {usuario: usuario, email:email, id:id}
         let enviarJson = JSON.stringify(enviar)
         console.log(enviar)
-        const respuesta = await fetch(`proyecto11-production-2f98.up.railway.app/api/user/actualizar/${id}`, {
+        const respuesta = await fetch(`http://localhost:4000/actualizar/${id}`, {
             method: 'PUT',
             headers:{"Content-Type": "application/json"},
             body: enviarJson

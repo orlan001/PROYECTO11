@@ -23,5 +23,5 @@ app.use(express.json({type:'*/*'}))
 
 app.use(express.static(__dirname + "/front/public"));
 
-app.use('/api/user', usuariosRutas)
+app.use('/', usuariosRutas)
 

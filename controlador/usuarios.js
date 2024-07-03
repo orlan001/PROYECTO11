@@ -14,7 +14,7 @@ const crearUsuarios = async (req, res) =>{
     let datos = {nombreUsuario:req.body.usuario, emailUsuario:req.body.email, passwordUsuario:hasPass, rolUsuario:''}
     const result = await conectar.query('INSERT INTO tblusuarios SET ?', datos, (error, results)=>{
         if(error) throw res.status(400).send({status:error, message:'error al registrar datos'})
-        return res.status(201).send({status:"ok", message:"usuario agregado en db.", redirect:"/api/user/" })
+        return res.status(201).send({status:"ok", message:"usuario agregado en db.", redirect:"/" })
     })
 }
 
@@ -36,7 +36,7 @@ const obtenerUsuarios = async (req, res)=>{
                 const cookieExp = {expires: new Date(Date.now() + process.env.JWT_COOKIE_EXP * 24 * 60* 60* 1000), path:"/"}
                 res.cookie("jwt",token,cookieExp)
                 const user = datosUsuarios.push(usuarioToken)
-                res.send({status:"ok", message: "usuario autorizado", redirect:"/api/user/admin"})
+                res.send({status:"ok", message: "usuario autorizado", redirect:"/admin"})
                 datosUsuarios.push(usuarioToken);
             }
         })
@@ -52,7 +52,7 @@ const actualizarUsuarios = async (req, res)=>{
     await conectar.query(sql, [usuario, email, id], (error, result)=>{
         console.log(result, "result")
         if(error) return res.status(500).send(error);
-        res.send({status:"ok", message: `Registro actualizado en bd. id:${id}`, redirect:"/api/user/admin"})
+        res.send({status:"ok", message: `Registro actualizado en bd. id:${id}`, redirect:"/admin"})
     })
 }
 
@@ -62,7 +62,7 @@ const eliminarUsuarios = async (req, res)=>{
     const sql = 'DELETE FROM tblusuarios WHERE idUsuario = ?';
     await conectar.query(sql, [id], (error, result)=>{
         if(error) return res.status(500).send(error);
-        res.send({status:"ok", message: `Registro eliminado en bd. con id:${id}`, redirect:"/api/user/admin"})
+        res.send({status:"ok", message: `Registro eliminado en bd. con id:${id}`, redirect:"/admin"})
     })
 }
 
