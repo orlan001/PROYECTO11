@@ -64,6 +64,7 @@ main {
     color: var(--clr-black);
 }
 
+
 .boton {
     border: 0;
     background-color: var(--clr-black);
@@ -95,6 +96,7 @@ main {
     margin-right: 1px;
 }
 
+
 .modal-centro {
     position: fixed;
     width: 35%;
@@ -118,6 +120,59 @@ main {
     transform: scale(1);
     opacity: 1;
     visibility: visible;
+}
+
+.modal-eliminar{
+    position: fixed;
+    width: 35%;
+    background-color: var(--clr-black);
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    gap: 1rem;
+    visibility: hidden;
+    opacity: 0;
+    transform: scale(.5);
+    transition: .3s;
+    box-shadow: 0 0 0 500vmax rgba(24, 20, 20, 0.5);
+    align-items: center;
+    z-index: 1;
+    margin-left: 2rem;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;    
+    border: unset;
+}
+
+.modal-eliminar.activo {
+    transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+}
+
+.btn-contenedor{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 0 auto;
+    padding: 10px 20px;
+}
+
+.titulo-modal-eliminar{
+    font-size: 15px;
+}
+
+.btn-cancelar{
+    width: auto;
+    margin: 0 2px;
+    background-color: var(--clr-red);
+}
+
+.btn-confirmar{
+    width: auto;
+    margin: 0 2px;
+    background-color: var(--clr-blue);
 }
 
 @media (max-width:767px){

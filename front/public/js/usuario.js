@@ -7,6 +7,10 @@ const contenedor_tabla_usuario = document.querySelector('.contenedor-tabla-usuar
 const template_usuario = document.querySelector('.template-usuario')
 const fragment = document.createDocumentFragment()
 
+const modal_eliminar = document.querySelector("#modal-eliminar")
+
+
+
 let cont=0;
 
 //cargar en el DOM despues cargar tdo html en la pagina
@@ -14,11 +18,13 @@ document.addEventListener('DOMContentLoaded',()=>{
     obtenerDatos()
 })
 
+
 //cerrar la ventana modal con el boton cerrar
 cerrarModalCentro.addEventListener("click", () => {
     modalCentro.classList.remove("active");
     window.location.reload();
 })
+
 
 //obtener datos para listar los datos del usuario
 //http://localhost:4000/api/user
@@ -60,11 +66,25 @@ const idUser = (e)=>{
         cargarDataId(datas) //cargar datos al formulario para modificar        
         
     }
-    
+
     if(e.target.matches(".btneliminar")){
-        let data = e.target.parentElement.parentElement.children[0].textContent;
-        eliminarDataId(data) //captura el id de la tabla para eliiminar
+            let data = e.target.parentElement.parentElement.children[0].textContent;
+//            modal_eliminar.classList.add("activo")
+            if (confirmar()){
+                eliminarDataId(data) //captura el id de la tabla para eliiminar
+  //              modal_eliminar.classList.remove("activo")            
+            }
+            
     }
+}
+
+function confirmar(){
+    let respuesta = confirm("Esta seguro de eliminar el registro actual..")
+    if (respuesta == true){
+        return true;
+    }else{
+        return false;
+    }        
 }
 
 //cargar datos en el formulario actualizar
