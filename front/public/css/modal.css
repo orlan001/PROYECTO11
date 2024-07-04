@@ -119,3 +119,13 @@ main {
     opacity: 1;
     visibility: visible;
 }
+
+@media (max-width:767px){
+    .modal-centro{
+        width: 75%;       
+    }   
+    .boton.cerrar {
+        background-color: var(--clr-red);
+        margin-right: 30px;
+    }
+}

@@ -21,7 +21,6 @@ cerrarModalCentro.addEventListener("click", () => {
 })
 
 //obtener datos para listar los datos del usuario
-//const respuesta = await fetch(`proyecto11-production-2f98.up.railway.app/api/user/listar`, {
 //http://localhost:4000/api/user
 const obtenerDatos = async ()=>{
     try {

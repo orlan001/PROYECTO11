@@ -14,6 +14,22 @@ body{
     padding: 5px 5px;
 }
 
+.contenido{
+    display: flex;
+    background-color:#FFFDD7;
+    background-image: url("imginicio.png");
+    border: unset;
+    border-radius:0 0 900px 900px;   
+    object-fit: cover;
+    background-repeat: no-repeat;
+    background-position:center;
+    margin: 0px auto;
+    height: 600px;
+    align-items: center;
+    justify-content: center;
+    width: 100vmax;
+}
+
 .bodyLogin{
     font-family: sans-serif;
     background-color:white;
@@ -228,7 +244,7 @@ body{
     animation-iteration-count: infinite;
     animation-timing-function:linear;
     color: green;
-    margin: auto;
+    margin: 5px auto;
     font-size: 20px;
     font-style: normal;
     text-align: center;
@@ -512,15 +528,17 @@ body{
 .img-inicio, 
 .img-about{
 
-    width: 250px;
-    height: 250px;
+    width: 400px;
+    height: 400px;
     object-fit:cover;
+    align-items: center;
 }
 
 .figure-inicio, 
 .figure-about{
-    width: 250px;
+    width: 350px;
     justify-content: center;
+    align-content: center;
 }
 
 .contenedor-card-inicio{
@@ -529,9 +547,18 @@ body{
     flex-wrap: wrap;
     width: 100%;
 }
+
 .parrafo-inicio{
     text-align: justify;
-    width: 250px;
+    width: 400px;
+ }
+
+ .contenido-ini-imagenfondo{
+    display: flex;
+    margin: 0, auto;
+    align-items: center;
+    justify-content: center;
+    background-color: #d6b880;
  }
  .titulo-servicio-about,
 .titulo-servicio-inicio{
@@ -539,7 +566,7 @@ body{
     text-align: center;
     font-size: 18px;
     color: #0F362D;
-    margin: 10px 10px;
+    margin: 10px auto;
     font-family:"Anton", sans-serif;
 }
 
@@ -559,6 +586,7 @@ body{
     flex-direction: column;
     margin: 30px 30px;
     justify-content:flex-start;
+    width: 400px;
  }
 
  .contenedor-table-inicio{
@@ -704,6 +732,12 @@ html{
         padding-top: 10px;
     }
 
+    .contenido{
+        background-size:contain;
+        margin-bottom: 5px;
+        border-radius: 0 0 500px 500px;
+    }
+
     .header{
         height: 75px;
         background-color: #643843;
@@ -805,7 +839,6 @@ html{
     .form-grupo{
         padding: 10px;
      }
-
 }
 
 /* tablet */
