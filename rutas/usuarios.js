@@ -16,6 +16,7 @@ const controladorUsuarios = require('../controlador/usuarios')
 const controladorServicios = require('../controlador/inicio')
 
 
+
 const inicialDir = path.parse(__dirname)
 
 router.use(express.static(path.join(inicialDir.dir, "/front/public/css")));
@@ -41,7 +42,7 @@ router.get("/turno",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.
 router.get("/admin",autorizacionUsuarios.administrador, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/panel/usuario.html")))
 
 
-
+//usuarios
 router.post('/registrar', controladorUsuarios.crearUsuarios )
 
 router.post('/login', controladorUsuarios.obtenerUsuarios)
@@ -50,8 +51,10 @@ router.put('/actualizar/:id', controladorUsuarios.actualizarUsuarios)
 
 router.delete('/eliminar/:id', controladorUsuarios.eliminarUsuarios)
 
+router.get('/listar', controladorUsuarios.listarUsuario)
+
+//inicio
 router.get('/servicio',controladorServicios.obtenerServicios)
 
-router.get('/listar', controladorUsuarios.listarUsuario)
 
 module.exports = router

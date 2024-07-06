@@ -20,10 +20,18 @@ const mensaje_email = document.querySelector('.mensaje-email');
 const mensaje_fecha = document.querySelector('.mensaje-fecha');
 const mensaje_hora = document.querySelector('.mensaje-hora');
 
+//mostrar datos en la tabla 
+const listaTabla = document.querySelector('.listaTabla');
+const template = document.querySelector('.template-tabla-turno').content;
+const fragment = document.createDocumentFragment();
 
 document.addEventListener("DOMContentLoaded", (event) => {
-    cargarTipoVehiculo();
+    obtenerDatosTiposVehiculo()
+    obtenerDatosTipoVehiculoServicio();
 });
+
+let data=[];
+
 
 //expresion regular para validar email
 const expRegValidarEmail =  /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
@@ -34,42 +42,28 @@ formTurno.addEventListener('submit', e =>{
     const errores = []
 
     if(dni.value.length == 0){
-        errores.push({
-            tipo:mensaje_dni,
-            msje:"formato dni no valido..",            
-        })        
-
+        errores.push({tipo:mensaje_dni, msje:"formato dni no valido..",})        
     }else{
         mensaje_dni.textContent = "";
         mensaje_dni.classList.remove('msje-error');
     }
 
     if(!expRegValidarEmail.test(email.value)){
-        errores.push({
-            tipo:mensaje_email,
-            msje:"formato email no valido..",            
-        })        
-
+        errores.push({tipo:mensaje_email,msje:"formato email no valido..",})        
     }else{
         mensaje_email.textContent = "";
         mensaje_email.classList.remove('msje-error');
     }
 
     if(fecha.value.length == 0 ){
-        errores.push({
-            tipo:mensaje_fecha,
-            msje:"formato fecha no valido..",            
-        })        
+        errores.push({tipo:mensaje_fecha,msje:"formato fecha no valido..", })        
     }else{
         mensaje_fecha.textContent = "";
         mensaje_fecha.classList.remove('msje-error');
     }
 
     if(hora.value.length == 0 ){
-        errores.push({
-            tipo:mensaje_hora,
-            msje:"formato hora no valido..",            
-        })        
+        errores.push({tipo:mensaje_hora,msje:"formato hora no valido..",})        
     }else{
         mensaje_hora.textContent = "";
         mensaje_hora.classList.remove('msje-error');
@@ -79,7 +73,6 @@ formTurno.addEventListener('submit', e =>{
             mostrar_mensajes_error(errores)
     }else{
             mostrar_mensaje_form_enviado();
-            console.log(datosFormReservaTurno);
             localStorage.setItem("datosReserva", JSON.stringify(datosFormReservaTurno));
     }
 })
@@ -102,45 +95,26 @@ const mostrar_mensajes_error=(errores)=>{
     });
 }
 
-const cargarTipoVehiculo = ()=>{
-    tblTipoVehiculo.forEach(items =>{
+
+const cargarTipoVehiculo = (tblTipoVehiculo)=>{
+    Object.values(tblTipoVehiculo).forEach(items =>{
         var opciones = document.createElement('option');
-        opciones.textContent = items.tipoVehiculoDescripcion;
+        opciones.textContent = items.nombreTipoVehiculo;
         opciones.setAttribute('value', items.idTipoVehiculo);
         tipoVehiculo.appendChild(opciones);
-    })
+    })    
 }
-
- 
-const listaTabla = document.querySelector('.listaTabla');
-const template = document.querySelector('template').content;
-const fragment = document.createDocumentFragment();
 
 tipoVehiculo.addEventListener('change', ()=>{
     let selecionOpcion = tipoVehiculo.options[tipoVehiculo.selectedIndex].value
     while(listaTabla.firstChild){
         listaTabla.removeChild(listaTabla.firstChild);
-    }
-    mostrarDatosTablaServicioPrecio(selecionOpcion);   
+    } 
+    cargarDatosTabla(selecionOpcion)   
 })
 
-const mostrarDatosTablaServicioPrecio = (e)=>{
-    //insertar datos en la tabla al seleccionar tipo de vehiculo
-    tblTipoVehiculoServicio.forEach((items) =>{
-        if(items.idTipoVehiculo === parseInt(e)){    
-            template.querySelector('#tdidTipoVehiculoServicio').textContent = items.idTipoServicio;
-            const {tipoServicioDescripcion} = tblTipoServicio.find(elemento => parseInt(elemento.idTipoServicio) === parseInt(items.idTipoServicio))
-            template.querySelector('#tdidTipoServicio').textContent = tipoServicioDescripcion;
-            template.querySelector('#tdPrecio').textContent = items.precio;
-            template.querySelector('.tipo-servicio').setAttribute('value',parseInt(items.idTipoServicio));
-            const clone = template.cloneNode(true);    
-            fragment.appendChild(clone);
-        }
-    })
-    listaTabla.appendChild(fragment)
-}
 
-const idTiposServicios=[];
+/*
 listaTabla.addEventListener('change', (e)=>{
         let valorBuscado = idTiposServicios.includes(e.target.value)
         if(e.target.checked && !valorBuscado){
@@ -152,4 +126,43 @@ listaTabla.addEventListener('change', (e)=>{
             }
         }
 })
+*/
 
+const obtenerDatosTiposVehiculo = async ()=>{
+    const respuesta = await fetch(`/vehiculos`, {
+            method: 'get',
+            headers: { "Content-Type": "application/json"}
+    })
+    if(!respuesta.ok){return msje_error.classList.toggle('autenticacion', false)}
+    const resJson = await respuesta.json()
+    if(resJson.redirect){window.location.href = resJson.redirect}
+    cargarTipoVehiculo(resJson)
+}
+
+const obtenerDatosTipoVehiculoServicio = async ()=>{
+    const respuesta = await fetch(`/servicio`, {
+            method: 'get',
+            headers: { "Content-Type": "application/json"}
+    })
+        if(!respuesta.ok){return msje_error.classList.toggle('autenticacion', false)}
+        const resJson = await respuesta.json()
+        if(resJson.redirect){window.location.href = resJson.redirect}
+        data.push(resJson);
+}
+
+//const cargarDatosTabla =(data)=>{
+const cargarDatosTabla =(e)=>{
+        let i = 1;
+        Object.values(data[0]).forEach(element => {
+            if(element.idTipoVehiculo === parseInt(e)){
+                const clone = template.cloneNode(true) 
+                clone.querySelector('#id').textContent = i
+                clone.querySelector('#chk-tipo-servicio').textContent = element.idTiposServicios   
+                clone.querySelector('#nombre-tipo-servicio').textContent = element.nombreTipoServicio   
+                clone.querySelector('#precio').textContent = element.precioTipoVehiculoServicio   
+                i++;
+                fragment.appendChild(clone)
+            }
+        })
+        listaTabla.appendChild(fragment)       
+}

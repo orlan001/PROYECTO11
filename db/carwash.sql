@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 04-07-2024 a las 16:06:49
+-- Tiempo de generación: 05-07-2024 a las 02:06:09
 -- Versión del servidor: 5.7.36
 -- Versión de PHP: 7.4.26
 
@@ -11,73 +11,65 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
 -- Base de datos: `carwash`
---
 
 -- --------------------------------------------------------
 
---
 -- Estructura de tabla para la tabla `tbldatoscliente`
 --
 
 DROP TABLE IF EXISTS `tbldatoscliente`;
 CREATE TABLE IF NOT EXISTS `tbldatoscliente` (
   `idDatosCliente` int(11) NOT NULL AUTO_INCREMENT,
-  `apeNomDatosCliente` varchar(50) NOT NULL,
-  `documentosDatosCliente` varchar(100) NOT NULL,
-  `emailDatosCliente` varchar(100) NOT NULL,
+  `apeNomDatosCliente` varchar(50) COLLATE utf8_spanish_ci NOT NULL,
+  `documentosDatosCliente` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `emailDatosCliente` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idDatosCliente`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
---
 -- Estructura de tabla para la tabla `tbldatosreservaturno`
---
 
 DROP TABLE IF EXISTS `tbldatosreservaturno`;
 CREATE TABLE IF NOT EXISTS `tbldatosreservaturno` (
-  `idDatosReservaTurno` int(10) NOT NULL AUTO_INCREMENT,
-  `idDatosCliente` int(10) NOT NULL,
-  `idDatosVehiculo` int(10) NOT NULL,
+  `idDatosReservaTurno` int(11) NOT NULL AUTO_INCREMENT,
+  `idDatosCliente` int(11) NOT NULL,
+  `idDatosVehiculo` int(11) NOT NULL,
   `fechaReservaTurno` date NOT NULL,
   `horaReservaTurno` time(6) NOT NULL,
-  `idTiposServicios` int(10) NOT NULL,
-  `estadoReservaTurno` text NOT NULL,
-  PRIMARY KEY (`idDatosReservaTurno`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `idTiposServicios` int(11) NOT NULL,
+  `estadoReservaTurno` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`idDatosReservaTurno`),
+  KEY `fk_idDatosCliente` (`idDatosCliente`),
+  KEY `fk_IdDatosVehiculo` (`idDatosVehiculo`),
+  KEY `fk_IdTiposServicios` (`idTiposServicios`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tbldatosvehiculo`
 --
-
 DROP TABLE IF EXISTS `tbldatosvehiculo`;
 CREATE TABLE IF NOT EXISTS `tbldatosvehiculo` (
-  `idDatosVehiculo` int(10) NOT NULL AUTO_INCREMENT,
-  `idTipoVehiculo` int(10) NOT NULL,
-  `patenteDatosVehiculo` varchar(10) DEFAULT NULL,
-  `descripcionDatosVehiculo` varchar(255) DEFAULT NULL,
-  `idDatosPersonales` int(10) NOT NULL,
+  `idDatosVehiculo` int(11) NOT NULL AUTO_INCREMENT,
+  `idTipoVehiculo` int(11) NOT NULL,
+  `patenteDatosVehiculo` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
+  `descripcionDatosVehiculo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `idDatosPersonales` int(11) NOT NULL,
   PRIMARY KEY (`idDatosVehiculo`),
   KEY `idTipoVehiculo` (`idTipoVehiculo`),
-  KEY `idDatosPersonales_2` (`idDatosPersonales`),
-  KEY `descripcionVehiculo` (`idDatosPersonales`) USING BTREE
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  KEY `idDatosPersonales` (`idDatosPersonales`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tbltiposervicio`
 --
-
 DROP TABLE IF EXISTS `tbltiposervicio`;
 CREATE TABLE IF NOT EXISTS `tbltiposervicio` (
   `idTipoServicio` int(11) NOT NULL AUTO_INCREMENT,
@@ -87,9 +79,7 @@ CREATE TABLE IF NOT EXISTS `tbltiposervicio` (
   PRIMARY KEY (`idTipoServicio`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
---
 -- Volcado de datos para la tabla `tbltiposervicio`
---
 
 INSERT INTO `tbltiposervicio` (`idTipoServicio`, `descripcionTipoServicio`, `nombreTipoServicio`, `imgTipoServicio`) VALUES
 (1, 'Contamos con un sistema de lavado sin cepillos, está totalmente diseñado para la limpieza de vehículos mediante el rociado de agua y espuma. Este sistema de\r\nlavado para coche no posee cepillos u otros componentes que puedan entrar en contacto con el coche. Este sistema de lavado rocía agua de forma más rápida y efectiva para una eficiencia óptima del lavado de su coche. El sistema sin cepillos son perfectos para cualquier automóvil sea pequeños, medianos o grande. Con este sistema nos ayuda a incrementar la velocidad de lavado con eficacia y entregar su vehículo a tiempo. Su vehículo estará protegido en todo momento mientras se realiza el servicio                       de lavado.\r\n', 'Lavado', 'lavado.png'),
@@ -99,11 +89,8 @@ INSERT INTO `tbltiposervicio` (`idTipoServicio`, `descripcionTipoServicio`, `nom
 (5, 'Para la limpieza de interior de su automóvil aplicamos\r\n                        restauradores de plásticos previo desengrase, no usamos siliconas, contamos con máquinas de\r\n                        vapor para de esta manera desinfectar ductos de aire acondicionado, así lograr eliminar los\r\n                        hongos que se pueden formar dentro los cuales son responsables de emanar un mal olor al prender\r\n                        la calefacción. La tapicería se desinfecta y se lava con maquinarias de inyección y extracción.\r\n                        Su limpieza incluye asientos, puertas, techo, baúl, alfombras, burletes y entradas de aire.', 'Interior', 'interior.png');
 
 -- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tbltipovehiculo`
 --
-
 DROP TABLE IF EXISTS `tbltipovehiculo`;
 CREATE TABLE IF NOT EXISTS `tbltipovehiculo` (
   `idTipoVehiculo` int(10) NOT NULL AUTO_INCREMENT,
@@ -113,7 +100,6 @@ CREATE TABLE IF NOT EXISTS `tbltipovehiculo` (
 
 --
 -- Volcado de datos para la tabla `tbltipovehiculo`
---
 
 INSERT INTO `tbltipovehiculo` (`idTipoVehiculo`, `nombreTipoVehiculo`) VALUES
 (1, 'Auto'),
@@ -123,23 +109,22 @@ INSERT INTO `tbltipovehiculo` (`idTipoVehiculo`, `nombreTipoVehiculo`) VALUES
 (5, 'Autobus');
 
 -- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tbltipovehiculoservicio`
 --
-
 DROP TABLE IF EXISTS `tbltipovehiculoservicio`;
 CREATE TABLE IF NOT EXISTS `tbltipovehiculoservicio` (
   `idTipoVehiculoServicio` int(10) NOT NULL AUTO_INCREMENT,
   `idTipoVehiculo` int(10) NOT NULL,
   `idTipoServicio` int(10) NOT NULL,
   `precioTipoVehiculoServicio` decimal(10,0) NOT NULL,
-  PRIMARY KEY (`idTipoVehiculoServicio`)
+  PRIMARY KEY (`idTipoVehiculoServicio`),
+  UNIQUE KEY `fk_idTipoVehiculoServicio` (`idTipoVehiculoServicio`),
+  KEY `fk_idTipoVehiculo` (`idTipoVehiculo`),
+  KEY `fk_idTipoServicio` (`idTipoServicio`)
 ) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `tbltipovehiculoservicio`
---
 
 INSERT INTO `tbltipovehiculoservicio` (`idTipoVehiculoServicio`, `idTipoVehiculo`, `idTipoServicio`, `precioTipoVehiculoServicio`) VALUES
 (1, 1, 1, '3000'),
@@ -169,27 +154,32 @@ INSERT INTO `tbltipovehiculoservicio` (`idTipoVehiculoServicio`, `idTipoVehiculo
 (25, 5, 5, '6500');
 
 -- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `tblusuarios`
 --
-
 DROP TABLE IF EXISTS `tblusuarios`;
 CREATE TABLE IF NOT EXISTS `tblusuarios` (
   `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
-  `nombreUsuario` varchar(60) NOT NULL,
-  `emailUsuario` varchar(60) NOT NULL,
-  `passwordUsuario` varchar(255) NOT NULL,
-  `rolUsuario` varchar(20) NOT NULL,
+  `nombreUsuario` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  `emailUsuario` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  `passwordUsuario` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `rolUsuario` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=MyISAM AUTO_INCREMENT=157 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
---
 -- Volcado de datos para la tabla `tblusuarios`
---
 
 INSERT INTO `tblusuarios` (`idUsuario`, `nombreUsuario`, `emailUsuario`, `passwordUsuario`, `rolUsuario`) VALUES
-(156, 'user1', 'user1@gmaaail.com', '$2a$05$UDoXyu.l0yoyOLBQ5rTkyuXbYJwspyGsfZbkegt9hQldpA1dAISvq', '');
+(1, 'user1', 'user1@gmil.com', '$2a$05$k0Im2QJRVaphhTCWjzeZBOowKGbCrrwf7mi4w8kfUUu69n26nU4f.', '');
+
+--
+-- Restricciones para tablas volcadas
+--
+--
+-- Filtros para la tabla `tbldatosreservaturno`
+--
+ALTER TABLE `tbldatosreservaturno`
+  ADD CONSTRAINT `tbldatosreservaturno_ibfk_1` FOREIGN KEY (`idDatosCliente`) REFERENCES `tbldatoscliente` (`idDatosCliente`),
+  ADD CONSTRAINT `tbldatosreservaturno_ibfk_2` FOREIGN KEY (`idDatosVehiculo`) REFERENCES `tbldatosvehiculo` (`idDatosVehiculo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

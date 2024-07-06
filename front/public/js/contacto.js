@@ -17,6 +17,7 @@ const expRegValidarEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 const expRegValidarNombreApellido= /[A-Za-zÑñÁáÉéÍíÓóÚú]+/;
 //const expRegValidarNombre = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+(?:\s+[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+){1,5}(?:\s+[-\sa-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+)?$/;
 
+
 form_contacto.addEventListener('submit', e =>{
     e.preventDefault()
 
@@ -86,3 +87,4 @@ const mostrar_mensajes_error=(errores)=>{
         items.tipo.textContent = items.msje;
     });
 }
+

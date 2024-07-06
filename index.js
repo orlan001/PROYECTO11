@@ -8,6 +8,8 @@ dotenv.config();
 
 const usuariosRutas = require('./rutas/usuarios')
 
+const turnoRutas = require('./rutas/turnos')
+
 //servidor
 const app = express();
 const PORT = process.env.PORT || 4000
@@ -24,4 +26,6 @@ app.use(express.json({type:'*/*'}))
 app.use(express.static(__dirname + "/front/public"));
 
 app.use('/', usuariosRutas)
+
+app.use('/', turnoRutas)
 
