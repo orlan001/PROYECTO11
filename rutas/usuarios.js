@@ -13,8 +13,7 @@ const autorizacionUsuarios = require('../autorizacion/usuarios')
 
 const controladorUsuarios = require('../controlador/usuarios')
 
-const controladorServicios = require('../controlador/inicio')
-
+//const controladorServicios = require('../controlador/inicio')
 
 
 const inicialDir = path.parse(__dirname)
@@ -26,18 +25,13 @@ router.use(express.static(path.join(inicialDir.dir, "/front/public/img")));
 router.use(express.static(path.join(inicialDir.dir, "/front/public/js")));
 
 
-
 router.get("/",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/login.html")))
 
 router.get("/registrar",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/registrar.html")))
 
-router.get("/inicio",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/index.html")))
-
 router.get("/contact",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/contact.html")))
 
 router.get("/about",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/about.html")))
-
-router.get("/turno",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/turno.html")))
 
 router.get("/admin",autorizacionUsuarios.administrador, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/panel/usuario.html")))
 
@@ -52,9 +46,6 @@ router.put('/actualizar/:id', controladorUsuarios.actualizarUsuarios)
 router.delete('/eliminar/:id', controladorUsuarios.eliminarUsuarios)
 
 router.get('/listar', controladorUsuarios.listarUsuario)
-
-//inicio
-router.get('/servicio',controladorServicios.obtenerServicios)
 
 
 module.exports = router

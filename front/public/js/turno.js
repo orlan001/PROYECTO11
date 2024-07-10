@@ -1,7 +1,7 @@
 const formTurno = document.getElementById('form-turno')
 
-//tipoVehiculo y servicios
-var tipoVehiculo = document.getElementById('tipo-vehiculo')
+//tipoVehiculo y serviciconstos
+let tipoVehiculo = document.getElementById('tipo-vehiculo')
 const patente = document.getElementById('patente')
 const descripcion = document.getElementById('descripcion');
 const fecha = document.getElementById('fecha');
@@ -22,7 +22,7 @@ const mensaje_hora = document.querySelector('.mensaje-hora');
 
 //mostrar datos en la tabla 
 const listaTabla = document.querySelector('.listaTabla');
-const template = document.querySelector('.template-tabla-turno').content;
+const template = document.querySelector('.template-tabla-turno')
 const fragment = document.createDocumentFragment();
 
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -32,15 +32,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
 let data=[];
 
-
 //expresion regular para validar email
 const expRegValidarEmail =  /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
 
-formTurno.addEventListener('submit', e =>{
+formTurno.addEventListener('submit', (e) =>{
     e.preventDefault()
 
+   // console.log(e)
     const errores = []
-
+  
     if(dni.value.length == 0){
         errores.push({tipo:mensaje_dni, msje:"formato dni no valido..",})        
     }else{
@@ -72,8 +72,9 @@ formTurno.addEventListener('submit', e =>{
     if (errores.length !== 0){
             mostrar_mensajes_error(errores)
     }else{
-            mostrar_mensaje_form_enviado();
-            localStorage.setItem("datosReserva", JSON.stringify(datosFormReservaTurno));
+          enviarDatosTurnoRegistrar(e)
+          mostrar_mensaje_form_enviado();
+//        localStorage.setItem("datosReserva", JSON.stringify(formTurno));
     }
 })
 
@@ -94,7 +95,6 @@ const mostrar_mensajes_error=(errores)=>{
         items.tipo.textContent = items.msje;
     });
 }
-
 
 const cargarTipoVehiculo = (tblTipoVehiculo)=>{
     Object.values(tblTipoVehiculo).forEach(items =>{
@@ -151,18 +151,141 @@ const obtenerDatosTipoVehiculoServicio = async ()=>{
 }
 
 //const cargarDatosTabla =(data)=>{
+  
 const cargarDatosTabla =(e)=>{
-        let i = 1;
         Object.values(data[0]).forEach(element => {
+            const clone = template.content.firstElementChild.cloneNode(true) 
             if(element.idTipoVehiculo === parseInt(e)){
-                const clone = template.cloneNode(true) 
-                clone.querySelector('#id').textContent = i
-                clone.querySelector('#chk-tipo-servicio').textContent = element.idTiposServicios   
+                clone.querySelector('#id').textContent = element.idTipoServicio   
+                //const checkbox = clone.querySelector('#chk-tipo-servicio').textContent = element.idTiposServicios   
                 clone.querySelector('#nombre-tipo-servicio').textContent = element.nombreTipoServicio   
                 clone.querySelector('#precio').textContent = element.precioTipoVehiculoServicio   
-                i++;
+                clone.addEventListener('click', (marcar));
                 fragment.appendChild(clone)
             }
         })
         listaTabla.appendChild(fragment)       
 }
+
+var cheksMarcados = []
+
+const marcar = (evt)=>{
+  let data = evt.target.parentElement.parentElement.children[0].textContent;
+  if(evt.target.matches(".chk-tipo-servicio")){
+        cheksMarcados.push(data)
+        console.log(cheksMarcados)  
+        console.log("marcado")  
+  }
+}
+ 
+//async function enviarDatosTurnoRegistrar(d){
+
+function enviarDatosTurnoRegistrar(d){
+    //Datos cliente
+    let dniC = dni.value
+    console.log(dniC)
+    let nombreC = nombre.value
+    console.log(nombreC)
+    const emailC = email.value;
+    console.log(emailC)
+    const telefonoC = telefono.value;
+    console.log(telefonoC)
+    //datos automovil
+    const tipoV = tipoVehiculo.value
+    console.log(tipoV)
+    const patenteA = patente.value;
+    console.log(patenteA)
+    const descripcionA = descripcion.value;
+    console.log(descripcionA)
+    const fechaR = fecha.value;
+    console.log(fechaR)
+    const horaR = hora.value
+    console.log(horaR)
+
+    console.log(cheksMarcados, "chek medddd.......")
+  }
+
+  /*
+    
+    const usuario = e.target.children.usuario.value;
+    const email = e.target.children.email.value;
+    const password = es.target.children.password.value;
+    let enviar = { usuario: usuario, email:email, password:password}
+    let enviarJson = JSON.stringify(enviar)
+    const respuesta = await fetch(`/registro`,{
+        method: 'post',
+        headers:{"Content-Type": "application/json"},
+        body: enviarJson
+    })
+
+    if(!respuesta.ok) return msje_error.classList.toggle('autenticacion', false)
+    const resJson = await respuesta.json();
+    if(resJson.redirect){
+       window.location.href = resJson.redirect;
+    }
+    */
+
+/*
+   // Datos a insertar
+const datosTabla1 = {
+    campo1: 'valor1',
+    campo2: 'valor2'
+  };
+  
+  const datosTabla2 = {
+    campo3: 'valor3'
+  };
+  
+  const datosTabla3 = {
+    campo4: 'valor4'
+  };
+  
+  // Iniciar la transacción
+  connection.beginTransaction(function(err) {
+    if (err) { throw err; }
+  
+    // Insertar en tabla1
+    connection.query('INSERT INTO tabla1 SET ?', datosTabla1, function(err, result) {
+      if (err) {
+        connection.rollback(function() {
+          throw err;
+        });
+      }
+  
+      const idTabla1 = result.insertId;
+  
+      // Insertar en tabla2
+      datosTabla2.id_tabla1 = idTabla1;
+      connection.query('INSERT INTO tabla2 SET ?', datosTabla2, function(err, result) {
+        if (err) {
+          connection.rollback(function() {
+            throw err;
+          });
+        }
+  
+        const idTabla2 = result.insertId;
+  
+        // Insertar en tabla3
+        datosTabla3.id_tabla1 = idTabla1;
+        connection.query('INSERT INTO tabla3 SET ?', datosTabla3, function(err, result) {
+          if (err) {
+            connection.rollback(function() {
+              throw err;
+            });
+          }
+  
+          connection.commit(function(err) {
+            if (err) {
+              connection.rollback(function() {
+                throw err;
+              });
+            }
+            console.log('Transacción completada con éxito.');
+            connection.end(); // Cerrar la conexión
+          });
+        });
+      });
+    });
+  });
+
+*/

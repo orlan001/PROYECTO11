@@ -19,7 +19,9 @@ routerTurno.use(express.static(path.join(inicialDir.dir, "/front/public/js")));
 
 routerTurno.get("/turno",autorizacionUsuarios.publico, (req, res)=>res.sendFile(path.join(inicialDir.dir , "/front/views/turno.html")))
 
-//turnos
+//turnosturn
 routerTurno.get('/Vehiculos', controladorTurno.obtenerTipoVehiculo )
+
+//inicio
 
 module.exports = routerTurno

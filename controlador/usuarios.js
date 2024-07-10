@@ -8,11 +8,12 @@ const datosUsuarios = [];
 
 const crearUsuarios = async (req, res) =>{
     const conectar = await conexion.obtenerConexion();
-    let password = req.body.password;
+    //let password = req.body.password;
+    let {password} = req.body;
     let salt = await bcrypt.genSalt(5);
     let hasPass = await bcrypt.hash(password, salt)
     let datos = {nombreUsuario:req.body.usuario, emailUsuario:req.body.email, passwordUsuario:hasPass, rolUsuario:''}
-    const result = await conectar.query('INSERT INTO tblusuarios SET ?', datos, (error, results)=>{
+    const result = await conectar.query('INSERT INTO tblusuarios SET ?', datos, async (error, results)=>{
         if(error) throw res.status(400).send({status:error, message:'error al registrar datos'})
         return res.status(201).send({status:"ok", message:"usuario agregado en db.", redirect:"/" })
     })
@@ -23,7 +24,7 @@ const obtenerUsuarios = async (req, res)=>{
     const usuario = req.body.usuario;
     const password = req.body.password
     if(usuario && password){
-        const result = await conectar.query('SELECT * FROM tblusuarios WHERE nombreUsuario =?', [usuario], async (error, results)=>{
+        const result = await conectar.query('SELECT * FROM tblusuarios WHERE nombreUsuario =?', usuario, async (error, results)=>{
             if(error) throw res.status(400).send({status:error, message:'error al obtener datos'})
             if(results.length == 0 || !(await bcrypt.compare(password, results[0].passwordUsuario))){
                 console.log('usuario o password invalido..')

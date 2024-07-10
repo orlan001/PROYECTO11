@@ -35,6 +35,7 @@ form_login.addEventListener("submit", async (e) =>{
     }
 })
 
+//http://localhost:4000/api/user
 async function obtenerAutenticacion(even){
     const usuario = even.target.children.usuario.value;
     const password = even.target.children.password.value;

@@ -10,6 +10,8 @@ const usuariosRutas = require('./rutas/usuarios')
 
 const turnoRutas = require('./rutas/turnos')
 
+const inicioRutas = require('./rutas/inicio')
+
 //servidor
 const app = express();
 const PORT = process.env.PORT || 4000
@@ -29,3 +31,4 @@ app.use('/', usuariosRutas)
 
 app.use('/', turnoRutas)
 
+app.use('/', inicioRutas)

@@ -12,7 +12,6 @@ const expRegPassword = /^[a-z0-9_-]{6,18}$/;
 
 form_registrar_val.addEventListener("submit", async (e) =>{
     e.preventDefault();
-
     const erroresRegistrar = []    
     if(!expRegUsuario.test(e.target.children.usuario.value) ||(!e.target.children.usuario.value.trim())){
         erroresRegistrar.push({
@@ -48,6 +47,7 @@ form_registrar_val.addEventListener("submit", async (e) =>{
         mostrar_mensajes_error(erroresRegistrar)
     }else{
         enviarDatos(e)  
+        
     }
 })
  

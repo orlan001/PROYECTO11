@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 //cerrar la ventana modal con el boton cerrar
 cerrarModalCentro.addEventListener("click", () => {
     modalCentro.classList.remove("active");
-    window.location.reload();
+   // window.location.reload();
 })
 
 
@@ -63,8 +63,7 @@ const idUser = (e)=>{
     if(e.target.matches(".btnactualizar")){       
         modalCentro.classList.add("active");
         let datas = e.target.parentElement.parentElement.children;
-        cargarDataId(datas) //cargar datos al formulario para modificar        
-        
+        cargarDataId(datas) //cargar datos al formulario para modificar                
     }
 
     if(e.target.matches(".btneliminar")){
